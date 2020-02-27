@@ -1,0 +1,155 @@
+CREATE TABLE [Users] (
+	UserID int NOT NULL,
+	UserName varchar(255) NOT NULL,
+	UserEmail varchar(255) NOT NULL,
+  CONSTRAINT [PK_USERS] PRIMARY KEY CLUSTERED
+  (
+  [UserID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Roles] (
+	RoleID int NOT NULL,
+	RoleName varchar(255) NOT NULL,
+  CONSTRAINT [PK_ROLES] PRIMARY KEY CLUSTERED
+  (
+  [RoleID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Cross_Users_Roles] (
+	Cross_UserID int NOT NULL,
+	Cross_RoleID int NOT NULL
+)
+GO
+CREATE TABLE [Permissions] (
+	PermID int NOT NULL,
+	Permission1 varchar(255) NOT NULL,
+	Permission2 varchar(255) NOT NULL,
+  CONSTRAINT [PK_PERMISSIONS] PRIMARY KEY CLUSTERED
+  (
+  [PermID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Cross_Role_Perm] (
+	Cross_RoleID int NOT NULL,
+	Cross_PermID int NOT NULL
+)
+GO
+CREATE TABLE [Proposals] (
+	PropID int NOT NULL,
+	Type int NOT NULL,
+	Submit int NOT NULL,
+	Approver int NOT NULL,
+	Data int NOT NULL,
+  CONSTRAINT [PK_PROPOSALS] PRIMARY KEY CLUSTERED
+  (
+  [PropID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Prop_Type] (
+	Prop_Type_ID int(255) NOT NULL,
+	Bill varchar(255) NOT NULL,
+	Resolution varchar(255) NOT NULL,
+  CONSTRAINT [PK_PROP_TYPE] PRIMARY KEY CLUSTERED
+  (
+  [Prop_Type_ID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Prop_Type_Elem] (
+	Prop_Type_Elem_ID int NOT NULL,
+	Prop_Type_Elem_Element int NOT NULL,
+	Prop_Type_Elem_# int NOT NULL,
+  CONSTRAINT [PK_PROP_TYPE_ELEM] PRIMARY KEY CLUSTERED
+  (
+  [Prop_Type_Elem_ID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Element] (
+	ElementID int(255) NOT NULL,
+	Heading varchar(255) NOT NULL,
+	Sponsors varchar(255) NOT NULL,
+	Section1 varchar(255) NOT NULL,
+	Section2 varchar(255) NOT NULL,
+	Section3 varchar(255) NOT NULL,
+  CONSTRAINT [PK_ELEMENT] PRIMARY KEY CLUSTERED
+  (
+  [ElementID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+
+
+ALTER TABLE [Cross_Users_Roles] WITH CHECK ADD CONSTRAINT [Cross_Users_Roles_fk0] FOREIGN KEY ([Cross_UserID]) REFERENCES [Users]([UserID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Cross_Users_Roles] CHECK CONSTRAINT [Cross_Users_Roles_fk0]
+GO
+ALTER TABLE [Cross_Users_Roles] WITH CHECK ADD CONSTRAINT [Cross_Users_Roles_fk1] FOREIGN KEY ([Cross_RoleID]) REFERENCES [Roles]([RoleID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Cross_Users_Roles] CHECK CONSTRAINT [Cross_Users_Roles_fk1]
+GO
+
+
+ALTER TABLE [Cross_Role_Perm] WITH CHECK ADD CONSTRAINT [Cross_Role_Perm_fk0] FOREIGN KEY ([Cross_RoleID]) REFERENCES [Roles]([RoleID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Cross_Role_Perm] CHECK CONSTRAINT [Cross_Role_Perm_fk0]
+GO
+ALTER TABLE [Cross_Role_Perm] WITH CHECK ADD CONSTRAINT [Cross_Role_Perm_fk1] FOREIGN KEY ([Cross_PermID]) REFERENCES [Permissions]([Permission1])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Cross_Role_Perm] CHECK CONSTRAINT [Cross_Role_Perm_fk1]
+GO
+
+ALTER TABLE [Proposals] WITH CHECK ADD CONSTRAINT [Proposals_fk0] FOREIGN KEY ([Submit]) REFERENCES [Users]([UserID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Proposals] CHECK CONSTRAINT [Proposals_fk0]
+GO
+ALTER TABLE [Proposals] WITH CHECK ADD CONSTRAINT [Proposals_fk1] FOREIGN KEY ([Approver]) REFERENCES [Users]([UserID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Proposals] CHECK CONSTRAINT [Proposals_fk1]
+GO
+
+ALTER TABLE [Prop_Type] WITH CHECK ADD CONSTRAINT [Prop_Type_fk0] FOREIGN KEY ([Bill]) REFERENCES [Proposals]([Type])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Prop_Type] CHECK CONSTRAINT [Prop_Type_fk0]
+GO
+ALTER TABLE [Prop_Type] WITH CHECK ADD CONSTRAINT [Prop_Type_fk1] FOREIGN KEY ([Resolution]) REFERENCES [Proposals]([Type])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Prop_Type] CHECK CONSTRAINT [Prop_Type_fk1]
+GO
+
+ALTER TABLE [Prop_Type_Elem] WITH CHECK ADD CONSTRAINT [Prop_Type_Elem_fk0] FOREIGN KEY ([Prop_Type_Elem_ID]) REFERENCES []([])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Prop_Type_Elem] CHECK CONSTRAINT [Prop_Type_Elem_fk0]
+GO
+ALTER TABLE [Prop_Type_Elem] WITH CHECK ADD CONSTRAINT [Prop_Type_Elem_fk1] FOREIGN KEY ([Prop_Type_Elem_Element]) REFERENCES [Element]([ElementID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Prop_Type_Elem] CHECK CONSTRAINT [Prop_Type_Elem_fk1]
+GO
+
+ALTER TABLE [Element] WITH CHECK ADD CONSTRAINT [Element_fk0] FOREIGN KEY ([ElementID]) REFERENCES []([])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Element] CHECK CONSTRAINT [Element_fk0]
+GO
+
