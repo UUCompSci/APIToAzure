@@ -4,6 +4,7 @@ namespace sga.API.Domain.Models
     {
 
             // This is the model for the user object
+            // new text to test
 
         public int Prop_ID { get; set; }
         public int PropType { get; set; }
